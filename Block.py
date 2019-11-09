@@ -17,7 +17,6 @@ class HackathonBlock:
         key.update(str(self.timestamp).encode('utf-8'))
         key.update(str(self.data).encode('utf-8'))
         key.update(str(self.prev_hash).encode('utf-8'))
-        print("Index:", self.index, " hash:", key.hexdigest())
         return key.hexdigest()
 
     def get_index(self):
