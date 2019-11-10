@@ -92,7 +92,7 @@ def main():
     chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
     chain.print_block_data(1)
     print("@ exit")
-    Pyro5.Daemon.serveSimple(
+    Daemon.serveSimple(
             {
                 HackathonChain: "genesis.hackathonchain"
             },
