@@ -7,14 +7,27 @@ from Pyro5.api import expose, behavior, Daemon
 import encryption as enc
 import Block
 import yaml
+import schedule
+import time
 
-def main():
+config = {}
+exit_status = 0
+
+
+def read():
     stream = open("config.yaml", 'r')
-    config_options = yaml.load(stream, Loader = yaml.SafeLoader)
-    if config_options['initial_setup'] == 0:
-        createMasterBlockchain()
-        for i in range(config_options['Number of Entities']-1)
-            createLocalBlockchain()
+    config = yaml.load(stream, Loader=yaml.SafeLoader)
+    print(config)
 
-if __name__ == "__main__":
-    main()
+
+
+def exit():
+    global exit_status
+    exit_status = 1
+
+
+schedule.every(2).seconds.do(read)
+
+while exit_status == 0:
+    schedule.run_pending()
+    time.sleep(1)
