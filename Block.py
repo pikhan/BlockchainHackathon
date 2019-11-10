@@ -2,6 +2,26 @@ import hashlib
 import datetime
 
 
+# class for containing our data to put inside the block
+# dd --> due diligence
+class HackathonData:
+    def __init__(self, dd_type, dd_doc, dd_date, orig_fi_id, vendor_id, req_fi_id):
+        self.dd_type = dd_type
+        self.dd_doc = dd_doc  # should be .pdf or some kind of file like that
+        self.dd_date = dd_date
+        self.orig_fi_id = orig_fi_id
+        self.vendor_id = vendor_id
+        self.req_fi_id = req_fi_id
+
+    def print_all_data(self):
+        print("Type of Due Diligence:", self.dd_type)
+        print("Document:", self.dd_doc)
+        print("Date Completed:", self.dd_date)
+        print("Original FI:", self.orig_fi_id)
+        print("3rd Party Vendor:", self.vendor_id)
+        print("Requesting FI:", self.req_fi_id)
+
+
 # class for our actual Block
 class HackathonBlock:
     def __init__(self, index, timestamp, data, prev_hash):
@@ -34,10 +54,13 @@ class HackathonBlock:
     def get_hash(self):
         return self.hash
 
+    def print_data(self):
+        self.data.print_all_data()
+
 
 # class for our Chain
 class HackathonChain:
-    def __init__(self): # initializes the block chain with a Genesis block
+    def __init__(self):  # initializes the block chain with a Genesis block
         self.blocks = [self.get_genesis_block()]
 
     def get_genesis_block(self):
@@ -46,10 +69,10 @@ class HackathonChain:
                               'Genesis',
                               'arbitrary')
 
-    def add_block(self, data):
+    def add_block(self, dd_type, dd_doc, dd_date, orig_fi_id, vendor_id, req_fi_id):
         self.blocks.append(HackathonBlock(len(self.blocks),
                                           datetime.datetime.utcnow(),
-                                          data,
+                                          HackathonData(dd_type, dd_doc, dd_date, orig_fi_id, vendor_id, req_fi_id),
                                           self.blocks[len(self.blocks) - 1].hash))
 
     def get_chain_size(self):  # exclude genesis block
@@ -58,11 +81,13 @@ class HackathonChain:
     def get_block_data(self, index):
         return self.blocks[index].get_data()
 
+    def print_block_data(self, index):
+        self.blocks[index].print_data()
+
 
 if __name__ == "__main__":
-    print("Asuh")
+    print("@ top")
     chain = HackathonChain()
-    print(chain.get_block_data(0))
-    chain.add_block('Equifax')
-    print(chain.get_block_data(1))
-    print("Peace")
+    chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
+    chain.print_block_data(1)
+    print("@ exit")
