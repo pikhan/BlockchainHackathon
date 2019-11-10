@@ -61,8 +61,6 @@ class HackathonBlock:
 
 
 # class for our Chain
-@expose
-@behavior(instance_mode="single")
 class HackathonChain:
     def __init__(self):  # initializes the block chain with a Genesis block
         self.blocks = [self.get_genesis_block()]
@@ -89,19 +87,15 @@ class HackathonChain:
         self.blocks[index].print_data()
 
 
-def main():
-    print("@ top")
-    chain = HackathonChain()
-    key_chain = enc.HackathonKeyChain()
-    chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
-    chain.print_block_data(1)
-    print("@ exit")
-    Daemon.serveSimple(
-            {
-                HackathonChain: "genesis.hackathonchain"
-            },
-            ns=False)
+#def main():
+    #print("@ top")
+    #chain = HackathonChain()
+    #key_chain = enc.HackathonKeyChain()
+    #chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
+    #chain.print_block_data(1)
+    #print("@ exit")
 
 
-if __name__ == "__main__":
-    main()
+
+#if __name__ == "__main__":
+#    main()
