@@ -20,7 +20,6 @@ def read():
     print(config)
 
 
-
 def exit():
     global exit_status
     exit_status = 1
