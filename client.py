@@ -37,10 +37,10 @@ def read():
         print(config)
 
 def newRequest(doctype, orig, vendor, requestee):
-    chain.add_block(self, doctype, None, date.today(), orig, vendor, requestee)
+    chain.add_block(doctype, None, date.today(), orig, vendor, requestee)
 
-def completeRequest()
-
+def completeRequest():
+    
 
 
 def exit():
