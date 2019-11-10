@@ -2,6 +2,7 @@ import hashlib
 import datetime
 from Pyro5.api import expose, behavior, Daemon
 
+
 # class for containing our data to put inside the block
 # dd --> due diligence
 class HackathonData:
@@ -86,6 +87,7 @@ class HackathonChain:
     def print_block_data(self, index):
         self.blocks[index].print_data()
 
+
 def main():
     print("@ top")
     chain = HackathonChain()
@@ -96,7 +98,8 @@ def main():
             {
                 HackathonChain: "genesis.hackathonchain"
             },
-            ns = False)
+            ns=False)
+
 
 if __name__ == "__main__":
     main()
