@@ -138,12 +138,18 @@ class MyGui(GridLayout):
     def updateRight(self, choice):
         if self.old != choice:
             self.old = choice
-            if self.old == 1:
+            if self.old == 0:
+                self.clear_widgets()
+                self.add_widget(self.blockLabel)
+                self.add_widget(ChoicesGui())
+            elif self.old == 1:
                 self.clear_widgets()
                 self.add_widget(self.blockLabel)
                 self.add_widget(TradeBlockGui())
             elif self.old == 2:
-                print("Update GUI here")
+                self.clear_widgets()
+                self.add_widget(self.blockLabel)
+                self.add_widget(UploadBlockGui())
 
 
 class ChoicesGui(GridLayout):
@@ -170,11 +176,12 @@ def btnPres(val):
     global choice
     choice = val
 
+
 class TradeBlockGui(GridLayout):
     def __init__(self, **kwargs):
         super(TradeBlockGui, self).__init__(**kwargs)
         self.cols = 2
-        self.rows = 4
+        #self.rows = 5
 
         self.add_widget(MyLabel(text="DD Type", font_size=45))
         self.dd_type = TextInput(multiline=False, font_size=35)
@@ -191,6 +198,53 @@ class TradeBlockGui(GridLayout):
         self.add_widget(MyLabel2(text="Request ID", font_size=45))
         self.req_id = TextInput(multiline=False, font_size=35)
         self.add_widget(self.req_id)
+
+        self.add_widget(Label())
+        self.submit = Button(text="Submit", font_size=45)
+        self.add_widget(self.submit)
+        self.submit.bind(on_press=self.subPress)
+
+    def subPress(self, btn):
+        btnPres(0)
+
+
+class UploadBlockGui(GridLayout):
+    def __init__(self, **kwargs):
+        super(UploadBlockGui, self).__init__(**kwargs)
+        self.cols = 2
+        #self.rows = 5
+
+        self.add_widget(MyLabel(text="DD Type", font_size=45))
+        self.dd_type = TextInput(multiline=False, font_size=35)
+        self.add_widget(self.dd_type)
+
+        self.add_widget(MyLabel(text="DD Date", font_size=45))
+        self.dd_date = TextInput(multiline=False, font_size=35)
+        self.add_widget(self.dd_date)
+
+        self.add_widget(MyLabel(text="DD Loc", font_size=45))
+        self.dd_loc = TextInput(multiline=False, font_size=35)
+        self.add_widget(self.dd_loc)
+
+        self.add_widget(MyLabel2(text="Original ID", font_size=45))
+        self.orig_id = TextInput(multiline=False, font_size=35)
+        self.add_widget(self.orig_id)
+
+        self.add_widget(MyLabel(text="Vendor ID", font_size=45))
+        self.ven_id = TextInput(multiline=False, font_size=35)
+        self.add_widget(self.ven_id)
+
+        self.add_widget(MyLabel2(text="Request ID", font_size=45))
+        self.req_id = TextInput(multiline=False, font_size=35)
+        self.add_widget(self.req_id)
+
+        self.add_widget(Label())
+        self.submit = Button(text="Submit", font_size=45)
+        self.add_widget(self.submit)
+        self.submit.bind(on_press=self.subPress)
+
+    def subPress(self, btn):
+        btnPres(0)
 
 
 class MyLabel(Label):
