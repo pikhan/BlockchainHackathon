@@ -3,6 +3,8 @@ import datetime
 from Pyro5.api import expose, behavior, Daemon
 import encryption as enc
 
+HOST_IP = "127.0.0.1"    # Set accordingly (i.e. "192.168.1.99")
+HOST_PORT = 631
 
 # class for containing our data to put inside the block
 # dd --> due diligence
@@ -61,10 +63,12 @@ class HackathonBlock:
 
 
 # class for our Chain
+@expose
 class HackathonChain:
     def __init__(self):  # initializes the block chain with a Genesis block
         self.blocks = [self.get_genesis_block()]
 
+    @property
     def get_genesis_block(self):
         return HackathonBlock(0,
                               datetime.datetime.utcnow(),
@@ -76,10 +80,11 @@ class HackathonChain:
                                           datetime.datetime.utcnow(),
                                           HackathonData(dd_type, dd_doc, dd_date, orig_fi_id, vendor_id, req_fi_id),
                                           self.blocks[len(self.blocks) - 1].hash))
-
+    @property
     def get_chain_size(self):  # exclude genesis block
         return len(self.blocks) - 1
 
+    @property
     def get_block_data(self, index):
         return self.blocks[index].get_data()
 
