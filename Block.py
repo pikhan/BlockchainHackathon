@@ -54,7 +54,7 @@ class HackathonData:
         print("Requesting FI:", self.req_fi_id)
 
     def return_all_data(self):
-        return "Type of Due Diligence:" + self.dd_type + "\nDocument:" + self.dd_doc +"\nDate Completed:"+ self.dd_date + "\nOriginal FI:" + self.orig_fi_id +"\n3rd Party Vendor:"+ self.vendor_id +"\nRequesting FI:"+ self.req_fi_id
+        return "Type of Due Diligence:" + self.dd_type + "\nDocument:" + self.dd_doc +"\nDate Completed:"+ self.dd_date + "\nOriginal FI:" + self.orig_fi_id +"\n3rd Party Vendor:"+ self.vendor_id +"\nRequesting FI:"+ self.req_fi_id + "\n"
 
 
 # class for our actual Block
@@ -126,12 +126,14 @@ class HackathonChain:
 def visualize_blockchain(chain):
     str_chain = "\n     *\n     *\n     *\n     *\n     *\n"
     str_genesis = "-------------------------\n| Genesis Block |\n-------------------------"
-    output = ""
+    str_line="-------------------------\n"
+    output = str_genesis+str_chain
     str_block = ""
     for i in range(chain.get_chain_size()):
         str_block += chain.get_block_data(i+1)
+        output += str_line+str_block+str_line+str_chain
 
-    return str_genesis+str_chain + str_block
+    return output
 
 
 # GUI class
