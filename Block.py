@@ -1,6 +1,6 @@
 import hashlib
 import datetime
-
+from Pyro5.api import expose, behavior, Daemon
 
 # class for containing our data to put inside the block
 # dd --> due diligence
@@ -59,6 +59,8 @@ class HackathonBlock:
 
 
 # class for our Chain
+@expose
+@behavior(instance_mode="single")
 class HackathonChain:
     def __init__(self):  # initializes the block chain with a Genesis block
         self.blocks = [self.get_genesis_block()]
@@ -84,10 +86,17 @@ class HackathonChain:
     def print_block_data(self, index):
         self.blocks[index].print_data()
 
-
-if __name__ == "__main__":
+def main():
     print("@ top")
     chain = HackathonChain()
     chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
     chain.print_block_data(1)
     print("@ exit")
+    Pyro5.Daemon.serveSimple(
+            {
+                HackathonChain: "genesis.hackathonchain"
+            },
+            ns = False)
+
+if __name__ == "__main__":
+    main()
