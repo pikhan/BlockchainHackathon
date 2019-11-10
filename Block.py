@@ -29,8 +29,10 @@ chain = Pyro4.Proxy("PYRO:obj_9fd2a94664ee4b7d9d4eca61d1d2391e@10.42.0.106:36159
 Config.set('graphics', 'width', '1380')
 Config.set('graphics', 'height', '900')
 
-choice = -1
 
+# global variables
+choice = -1
+blockchain = ""
 
 # class for containing our data to put inside the block
 # dd --> due diligence
@@ -50,6 +52,9 @@ class HackathonData:
         print("Original FI:", self.orig_fi_id)
         print("3rd Party Vendor:", self.vendor_id)
         print("Requesting FI:", self.req_fi_id)
+
+    def return_all_data(self):
+        return "Type of Due Diligence:" + self.dd_type + "\nDocument:" + self.dd_doc +"\nDate Completed:"+ self.dd_date + "\nOriginal FI:" + self.orig_fi_id +"\n3rd Party Vendor:"+ self.vendor_id +"\nRequesting FI:"+ self.req_fi_id
 
 
 # class for our actual Block
@@ -76,7 +81,7 @@ class HackathonBlock:
         return self.timestamp
 
     def get_data(self):
-        return self.data
+        return self.data.return_all_data()
 
     def get_prev_hash(self):
         return self.prev_hash
@@ -104,16 +109,29 @@ class HackathonChain:
                                           HackathonData(dd_type, dd_doc, dd_date, orig_fi_id, vendor_id, req_fi_id),
                                           self.blocks[len(self.blocks) - 1].hash))
 
-    @property
     def get_chain_size(self):  # exclude genesis block
         return len(self.blocks) - 1
 
-    @property
     def get_block_data(self, index):
         return self.blocks[index].get_data()
 
     def print_block_data(self, index):
         self.blocks[index].print_data()
+
+    def return_chain(self):
+        return self.blocks
+
+
+# build our Blockchain string for printing
+def visualize_blockchain(chain):
+    str_chain = "\n     *\n     *\n     *\n     *\n     *\n"
+    str_genesis = "-------------------------\n| Genesis Block |\n-------------------------"
+    output = ""
+    str_block = ""
+    for i in range(chain.get_chain_size()):
+        str_block += chain.get_block_data(i+1)
+
+    return str_genesis+str_chain + str_block
 
 
 # GUI class
@@ -129,8 +147,8 @@ class MyGui(GridLayout):
         super(MyGui, self).__init__(**kwargs)
         self.cols = 2
         self.old = 0
-
-        self.blockLabel = Label(text=" BLOCKCHAIN SHIET", font_size=70)
+        global blockchain
+        self.blockLabel = Label(text=blockchain , font_size=40)
         self.add_widget(self.blockLabel)
         right = ChoicesGui()
         self.add_widget(right)
@@ -155,6 +173,10 @@ class MyGui(GridLayout):
                 self.add_widget(self.blockLabel)
                 self.add_widget(UploadBlockGui())
 
+
+class BlockchainGui(Label):
+    def __init__(self):
+        self.meme = 0
 
 class ChoicesGui(GridLayout):
     def __init__(self, **kwargs):
@@ -284,8 +306,9 @@ def main():
     chain = HackathonChain()
     key_chain = enc.HackathonKeyChain()
     chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
-    chain.print_block_data(1)
     print("@ exit")
+    global blockchain
+    blockchain = visualize_blockchain(chain)
     GUI().run()
     Daemon.serveSimple(
         {
