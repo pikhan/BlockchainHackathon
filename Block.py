@@ -1,6 +1,7 @@
 import hashlib
 import datetime
 from Pyro5.api import expose, behavior, Daemon
+import encryption as enc
 
 
 # class for containing our data to put inside the block
@@ -91,6 +92,7 @@ class HackathonChain:
 def main():
     print("@ top")
     chain = HackathonChain()
+    key_chain = enc.HackathonKeyChain()
     chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
     chain.print_block_data(1)
     print("@ exit")
