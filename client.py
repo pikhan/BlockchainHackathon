@@ -11,9 +11,11 @@ import schedule
 import time
 import sys
 import Pyro4
+import Pyro4.util
 
+sys.excepthook = Pyro4.util.excepthook
 
-chain = Pyro4.Proxy()
+chain = Pyro4.Proxy("PYRONAME:Initial.chain")
 print(chain)
 
 first_stream = open("config.yaml", 'r')

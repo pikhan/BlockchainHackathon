@@ -67,12 +67,12 @@ exit_status = 0
 EntityId = 'Initial'
 
 schedule.every(2).seconds.do(read)
-Pyro4.config.HOST = "your_hostname_here"
+Pyro4.config.HOST = "127.0.0.1"
 Pyro4.Daemon.serveSimple(
         {
             chain: EntityId+".chain"
         },
-        ns = False)
+        ns = True)
 
 while exit_status == 0:
     schedule.run_pending()
