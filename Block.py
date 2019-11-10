@@ -205,7 +205,11 @@ class TradeBlockGui(GridLayout):
         self.submit.bind(on_press=self.subPress)
 
     def subPress(self, btn):
+        self.printData()
         btnPres(0)
+
+    def printData(self):
+        print(self.dd_type.text, self.orig_id.text, self.ven_id.text, self.req_id.text)
 
 
 class UploadBlockGui(GridLayout):
