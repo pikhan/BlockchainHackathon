@@ -2,15 +2,19 @@
 # used in the kivy-based gui set up for the aforementioned client
 import hashlib
 from datetime import date
-from Pyro5.api import locate_ns, Proxy
+
 
 import encryption as enc
 import Block
 import yaml
 import schedule
 import time
+import sys
+import Pyro4
 
-chain = Block.HackathonChain()
+
+chain = Pyro4.Proxy()
+print(chain)
 
 first_stream = open("config.yaml", 'r')
 first_temp = yaml.load(first_stream, Loader=yaml.SafeLoader)
@@ -47,7 +51,8 @@ def read():
 
 
 def newRequest(doctype, orig, vendor, requestee):
-    chain.add_block(doctype, None, date.today(), orig, vendor, requestee)
+
+        chain.add_block(doctype, None, date.today(), orig, vendor, requestee)
 
 
 def completeRequest():
@@ -66,7 +71,7 @@ exit_status = 0
 EntityId = 'Initial'
 
 schedule.every(2).seconds.do(read)
-
+newRequest("Soc2","JPMorgan","Bloomberg","Goldman Sachs")
 
 while exit_status == 0:
     schedule.run_pending()

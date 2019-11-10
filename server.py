@@ -2,8 +2,8 @@
 # executed only on the server machine, that is not on the GUI end product
 import hashlib
 from datetime import date
-import Pyro5.api
-from Pyro5.core import locate_ns
+import Pyro4
+
 
 import encryption as enc
 import Block
@@ -67,15 +67,12 @@ exit_status = 0
 EntityId = 'Initial'
 
 schedule.every(2).seconds.do(read)
-with Pyro5.api.Daemon(host=Block.HOST_IP, port=Block.HOST_PORT) as daemon:
-    print("tester1")
-    chain_uri = daemon.register(chain)
-    print("tester2")
-    with locate_ns() as ns:
-        print("tester3")
-        ns.register("Block.HackathonChain." + EntityId, chain_uri)
-        print("tester4")
-    daemon.requestLoop()
+Pyro4.config.HOST = "your_hostname_here"
+Pyro4.Daemon.serveSimple(
+        {
+            chain: EntityId+".chain"
+        },
+        ns = False)
 
 while exit_status == 0:
     schedule.run_pending()

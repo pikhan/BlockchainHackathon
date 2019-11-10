@@ -3,8 +3,6 @@ import datetime
 from Pyro5.api import expose, behavior, Daemon
 import encryption as enc
 
-HOST_IP = "127.0.0.1"  # Set accordingly (i.e. "192.168.1.99")
-HOST_PORT = 9090
 
 
 # class for containing our data to put inside the block
@@ -66,6 +64,7 @@ class HackathonBlock:
 
 # class for our Chain
 @expose
+@behavior(instance_mode="single")
 class HackathonChain:
     def __init__(self):  # initializes the block chain with a Genesis block
         self.blocks = [self.get_genesis_block()]
@@ -97,6 +96,7 @@ def main():
     chain.add_block('SSAE18 Soc2', 'audit.pdf', '10/27/2018', 'Equifax', 'Amazon', 'FICO')
     chain.print_block_data(1)
     print("@ exit")
+
 
 
 if __name__ == "__main__":
