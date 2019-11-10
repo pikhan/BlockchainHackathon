@@ -15,7 +15,7 @@ import Pyro4.util
 
 sys.excepthook = Pyro4.util.excepthook
 
-chain = Pyro4.Proxy("PYRONAME:Initial.chain")
+chain = Pyro4.Proxy("PYRO:obj_b8ceaf41de2c4c03ad61f6b9f4a1f9f3@10.42.0.106:43187")
 print(chain)
 
 first_stream = open("config.yaml", 'r')

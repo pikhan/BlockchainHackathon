@@ -210,6 +210,14 @@ class TradeBlockGui(GridLayout):
 
     def printData(self):
         print(self.dd_type.text, self.orig_id.text, self.ven_id.text, self.req_id.text)
+        global ddtypeRead
+        ddtypeRead = self.dd_type.text
+        global origRead
+        origRead = self.orig_id.text
+        global venRead
+        venRead = self.ven_id.text
+        global reqRead
+        reqRead = self.req_id.text
 
 
 class UploadBlockGui(GridLayout):
@@ -281,6 +289,10 @@ def main():
             },
             ns=False)
 
+ddtypeRead = None
+origRead = None
+venRead = None
+reqRead = None
 
 if __name__ == "__main__":
     main()

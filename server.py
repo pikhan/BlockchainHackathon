@@ -54,7 +54,7 @@ def newRequest(doctype, orig, vendor, requestee):
 def completeRequest():
     print("Nothing")
 
-
+newRequest(Block.dd_type.text)
 def exit():
     global exit_status
     exit_status = 1
