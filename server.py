@@ -54,7 +54,6 @@ def newRequest(doctype, orig, vendor, requestee):
 def completeRequest():
     print("Nothing")
 
-newRequest(Block.dd_type.text)
 def exit():
     global exit_status
     exit_status = 1
@@ -67,7 +66,7 @@ exit_status = 0
 EntityId = 'Initial'
 
 schedule.every(2).seconds.do(read)
-Pyro4.config.HOST = "127.0.0.1"
+Pyro4.config.HOST = "10.42.0.106"
 Pyro4.Daemon.serveSimple(
         {
             chain: EntityId+".chain"

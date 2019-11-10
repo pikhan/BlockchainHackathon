@@ -16,15 +16,20 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.config import Config
 from kivy.graphics import Color, Rectangle
+import sys
+import Pyro4
+import Pyro4.util
+import schedule
 
+sys.excepthook = Pyro4.util.excepthook
+
+chain = Pyro4.Proxy("PYRO:obj_9fd2a94664ee4b7d9d4eca61d1d2391e@10.42.0.106:36159")
 
 # force size of window here for kivy
 Config.set('graphics', 'width', '1380')
 Config.set('graphics', 'height', '900')
 
-
 choice = -1
-
 
 
 # class for containing our data to put inside the block
@@ -81,7 +86,6 @@ class HackathonBlock:
 
     def print_data(self):
         self.data.print_all_data()
-
 
 
 # class for our Chain
@@ -181,7 +185,7 @@ class TradeBlockGui(GridLayout):
     def __init__(self, **kwargs):
         super(TradeBlockGui, self).__init__(**kwargs)
         self.cols = 2
-        #self.rows = 5
+        # self.rows = 5
 
         self.add_widget(MyLabel(text="DD Type", font_size=45))
         self.dd_type = TextInput(multiline=False, font_size=35)
@@ -224,7 +228,7 @@ class UploadBlockGui(GridLayout):
     def __init__(self, **kwargs):
         super(UploadBlockGui, self).__init__(**kwargs)
         self.cols = 2
-        #self.rows = 5
+        # self.rows = 5
 
         self.add_widget(MyLabel(text="DD Type", font_size=45))
         self.dd_type = TextInput(multiline=False, font_size=35)
@@ -284,15 +288,25 @@ def main():
     print("@ exit")
     GUI().run()
     Daemon.serveSimple(
-            {
-                HackathonChain: "genesis.hackathonchain"
-            },
-            ns=False)
+        {
+            HackathonChain: "genesis.hackathonchain"
+        },
+        ns=False)
+
 
 ddtypeRead = None
 origRead = None
 venRead = None
 reqRead = None
+
+
+def newRequest(doctype, orig, vendor, requestee):
+    chain.add_block(doctype, None, date.today(), orig, vendor, requestee)
+
+print("Chain", chain)
+while(ddtypeRead is not None):
+    newRequest(ddtypeRead, origRead, venRead, reqRead)
+    print("Chain", chain)
 
 if __name__ == "__main__":
     main()
